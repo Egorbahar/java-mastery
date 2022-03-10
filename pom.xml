@@ -12,5 +12,12 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
-
+    <dependencies>
+<!--        <dependency>-->
+<!--            &lt;!&ndash; https://mvnrepository.com/artifact/com.google.code.reflection-utils/reflection-utils &ndash;&gt;-->
+<!--            <groupId>com.google.code.reflection-utils</groupId>-->
+<!--            <artifactId>reflection-utils</artifactId>-->
+<!--            <version>0.0.1</version>-->
+<!--        </dependency>-->
+    </dependencies>
 </project>
