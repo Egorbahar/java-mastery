@@ -3,8 +3,8 @@ package com.godeltech.inject;
 import java.lang.reflect.Field;
 import java.util.Random;
 
-public abstract class Inject {
+public abstract class AbstractInjector {
     protected Random random = new Random();
 
-    public abstract void injectValue(Field field, Object obj) throws IllegalAccessException ;
+    public abstract void injectValue(Field field, Object obj) throws IllegalAccessException;
 }
