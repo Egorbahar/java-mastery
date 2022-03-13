@@ -1,4 +1,4 @@
-package com.godeltech.model;
+package fixture;
 
 import com.godeltech.annotation.InjectRandomValue;
 import lombok.Getter;
@@ -6,11 +6,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Person {
+public class InjectRandomValueFixture {
     @InjectRandomValue
     private String name;
     @InjectRandomValue
-    private Boolean isMarriage;
+    private Boolean isMarried;
     @InjectRandomValue
     private Integer age;
+
 }
