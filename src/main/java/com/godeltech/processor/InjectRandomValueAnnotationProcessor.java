@@ -1,6 +1,7 @@
 package com.godeltech.processor;
 
 import com.godeltech.annotation.InjectRandomValue;
+import com.godeltech.exception.InjectRandomValueException;
 import com.godeltech.inject.AbstractInjector;
 import com.godeltech.inject.BooleanInjector;
 import com.godeltech.inject.IntegerInjector;
@@ -23,7 +24,7 @@ public class InjectRandomValueAnnotationProcessor {
             InjectRandomValue annotation = field.getAnnotation(InjectRandomValue.class);
             if (annotation != null) {
                 AbstractInjector inject = Optional.ofNullable(injectMap.get(field.getType()))
-                        .orElseThrow(() -> new RuntimeException("Invalid type"));
+                        .orElseThrow(() -> new InjectRandomValueException("Invalid type " + field.getType()));
                 inject.injectValue(field, obj);
             }
         }
