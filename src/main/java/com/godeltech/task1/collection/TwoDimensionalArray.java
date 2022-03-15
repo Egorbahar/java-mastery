@@ -1,4 +1,4 @@
-package com.godeltech.collection;
+package com.godeltech.task1.collection;
 
 import java.util.*;
 

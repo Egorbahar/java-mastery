@@ -1,6 +1,6 @@
 package fixture;
 
-import com.godeltech.annotation.InjectRandomValue;
+import com.godeltech.task1.annotation.InjectRandomValue;
 import lombok.Getter;
 import lombok.Setter;
 

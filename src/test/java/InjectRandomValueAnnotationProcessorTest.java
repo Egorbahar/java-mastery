@@ -1,5 +1,5 @@
-import com.godeltech.exception.InjectRandomValueException;
-import com.godeltech.processor.InjectRandomValueAnnotationProcessor;
+import com.godeltech.task1.exception.InjectRandomValueException;
+import com.godeltech.task1.processor.InjectRandomValueAnnotationProcessor;
 import fixture.InjectRandomValueFixture;
 import fixture.InjectRandomValueInvalidFixture;
 import org.junit.jupiter.api.BeforeEach;

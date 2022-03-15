@@ -1,4 +1,4 @@
-package com.godeltech.inject;
+package com.godeltech.task1.inject;
 
 import java.lang.reflect.Field;
 import java.util.Random;

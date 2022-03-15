@@ -1,11 +1,11 @@
-package com.godeltech.processor;
+package com.godeltech.task1.processor;
 
-import com.godeltech.annotation.InjectRandomValue;
-import com.godeltech.exception.InjectRandomValueException;
-import com.godeltech.inject.AbstractInjector;
-import com.godeltech.inject.BooleanInjector;
-import com.godeltech.inject.IntegerInjector;
-import com.godeltech.inject.StringInjector;
+import com.godeltech.task1.annotation.InjectRandomValue;
+import com.godeltech.task1.exception.InjectRandomValueException;
+import com.godeltech.task1.inject.AbstractInjector;
+import com.godeltech.task1.inject.BooleanInjector;
+import com.godeltech.task1.inject.IntegerInjector;
+import com.godeltech.task1.inject.StringInjector;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
