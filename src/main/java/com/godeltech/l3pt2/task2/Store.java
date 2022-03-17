@@ -8,7 +8,8 @@ import lombok.Getter;
 public class Store {
     private int couponNumber;
 
-    public void giveCoupon(int outstandingCoupon)  {
-            couponNumber -= outstandingCoupon;
+    public void giveCoupon(final int outstandingCoupon, final User user) {
+        couponNumber -= outstandingCoupon;
+        user.setCouponNumber(outstandingCoupon);
     }
 }

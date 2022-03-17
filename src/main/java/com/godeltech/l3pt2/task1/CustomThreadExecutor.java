@@ -10,8 +10,8 @@ public class CustomThreadExecutor {
     private static final int THREAD_POOL_NUMBER = 4;
 
     public static void invoke() {
-        List<Long> list = new ArrayList<>();
-        AtomicReference<Long> totalPerformanceMillis = new AtomicReference<>((long) 0);
+        final List<Long> list = new ArrayList<>();
+        final AtomicReference<Long> totalPerformanceMillis = new AtomicReference<>((long) 0);
 
         Runnable task = () -> {
             long startTime = System.currentTimeMillis();

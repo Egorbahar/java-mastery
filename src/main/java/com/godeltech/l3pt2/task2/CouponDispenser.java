@@ -8,13 +8,13 @@ import java.util.stream.IntStream;
 public class CouponDispenser {
     private static final Map<User, Integer> userMap = new HashMap<>();
 
-    public static void takeCoupon(Store store, int userNumber) {
+    public static void takeCoupon(final Store store, final int userNumber) {
         Runnable takeCouponTask = () -> {
             int coupon = (int) (Math.random() * 10);
             User user = new User();
-            user.takeCoupon(coupon, store);
-            System.out.println(Thread.currentThread().getName());
+            store.giveCoupon(coupon, user);
             userMap.put(user, user.getCouponNumber());
+            System.out.println(Thread.currentThread().getName());
         };
         ExecutorService executorService = Executors.newFixedThreadPool(userNumber);
         IntStream range = IntStream.rangeClosed(1, userNumber);
