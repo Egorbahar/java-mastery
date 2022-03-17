@@ -13,18 +13,8 @@ public class Main {
         );
         PersonProcessor processor = new PersonProcessor();
         processor.process(personList,
-                new Filter() {
-                    @Override
-                    public boolean match(Person person) {
-                        return "developer".equals(person.getPosition()) || person.getAge() > 20;
-                    }
-                },
-                new Printer() {
-                    @Override
-                    public void print(Person person) {
-                        System.out.println(person.getName());
-                    }
-                }
+                person -> "developer".equals(person.getPosition()) || person.getAge() > 20,
+                person -> System.out.println(person.getName())
         );
     }
 }

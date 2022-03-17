@@ -7,11 +7,6 @@ public class PersonProcessor {
     public void process(List<Person> data,
                         Filter filter,
                         Printer printer) {
-        for (Person person : data) {
-            if (filter.match(person)) {
-                printer.print(person);
-            }
-        }
+        data.stream().filter(filter::match).forEach(printer::print);
     }
-
 }
