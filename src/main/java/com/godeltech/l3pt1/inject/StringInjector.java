@@ -1,6 +1,6 @@
-package com.godeltech.task1.inject;
+package com.godeltech.l3pt1.inject;
 
-import com.godeltech.task1.annotation.InjectRandomValue;
+import com.godeltech.l3pt1.annotation.InjectRandomValue;
 
 import java.lang.reflect.Field;
 

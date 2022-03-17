@@ -1,4 +1,4 @@
-package com.godeltech.task1.annotation;
+package com.godeltech.l3pt1.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
