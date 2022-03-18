@@ -1,9 +1,6 @@
 package com.godeltech.l4pt4;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Main {
 
@@ -14,55 +11,40 @@ public class Main {
         Print name of each user
          */
         System.out.println("All users:");
-        for (User user : users) {
-            System.out.println(user.getName());
-        }
+        users.forEach(user -> System.out.println(user.getName()));
 
         /*
         Print name only if user age >= 18
          */
         System.out.println("Users with age >= 18:");
-        for (User user : users) {
-            if (user.getAge() >= 18) {
-                System.out.println(user.getName());
-            }
-        }
-
+        users.stream()
+                .filter(user -> user.getAge() >= 18)
+                .forEach(user -> System.out.println(user.getName()));
         /*
         Print unique names
          */
         System.out.println("Unique names:");
-        Set<String> names = new HashSet<String>();
-        for (User user : users) {
-            names.add(user.getName());
-        }
-        for (String name : names) {
-            System.out.println(name);
-        }
+        users.stream()
+                .map(User::getName)
+                .distinct()
+                .forEach(System.out::println);
 
-        /**
-         * Print unique emails of users
+        /*
+          Print unique emails of users
          */
         System.out.println("Unique emails:");
-        Set<String> emails = new HashSet<String>();
-        for (User user : users) {
-            for (String email : user.getEmails()) {
-                emails.add(email);
-            }
-        }
-        for (String email : emails) {
-            System.out.println(email);
-        }
-
-        /**
-         * Print total age (sum) of all users
+        users.stream()
+                .map(User::getEmails)
+                .flatMap(Collection::stream)
+                .distinct()
+                .forEach(System.out::println);
+        /*
+          Print total age (sum) of all users
          */
         System.out.println("Total age:");
-        Integer totalAge = 0;
-        for (User user : users) {
-            totalAge += user.getAge();
-        }
-        System.out.println(totalAge);
+        System.out.println(users.stream()
+                .mapToInt(User::getAge)
+                .sum());
     }
 
     private static List<User> buildUsersCollection() {
