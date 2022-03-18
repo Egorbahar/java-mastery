@@ -35,8 +35,7 @@ public class Main {
          */
         System.out.println("Unique emails:");
         users.stream()
-                .map(User::getEmails)
-                .flatMap(Collection::stream)
+                .flatMap(user -> user.getEmails().stream())
                 .distinct()
                 .forEach(System.out::println);
         /*
