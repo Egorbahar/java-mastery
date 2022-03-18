@@ -11,7 +11,8 @@ public class Main {
         Print name of each user
          */
         System.out.println("All users:");
-        users.forEach(user -> System.out.println(user.getName()));
+        users.stream()
+                .forEach(user -> System.out.println(user.getName()));
 
         /*
         Print name only if user age >= 18
