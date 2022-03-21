@@ -1,82 +1,81 @@
 package com.godeltech.l5pt5;
 
-import java.io.*;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.Iterator;
+import java.util.Set;
 
 public class NIO_2_PT {
 
-    public static void main(String[] args) {
-        byte[][] arrayOfBytes = new byte[10][];
+    public static class Server {
+        private static final InetSocketAddress inetSocketAddress = new InetSocketAddress("localhost", 8889);
+        private static final Path filePath = Paths.get("src/main/resources/nio_2_pt.txt");
 
-        System.out.println("Writing texts into the bytes.");
+        public static void main(String[] args) throws IOException {
 
-        for (int index = 0; index < arrayOfBytes.length; index++) {
-            String text = String.format("It's is a text #%d.", index + 1);
-
-            ByteArrayOutputStream byteArrayOutputStream = null;
-            BufferedWriter bufferedWriter = null;
-
-            try {
-                byteArrayOutputStream = new ByteArrayOutputStream();
-                bufferedWriter = new BufferedWriter(new OutputStreamWriter(byteArrayOutputStream));
-
-                bufferedWriter.write(text);
-                bufferedWriter.newLine();
-                bufferedWriter.flush();
-
-                arrayOfBytes[index] = byteArrayOutputStream.toByteArray();
-
-                System.out.println(String.format("\"%s\" -> bytes.", text));
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (bufferedWriter != null) {
-                    try {
-                        bufferedWriter.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+            Selector selector = Selector.open();
+            ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+            serverSocketChannel.bind(inetSocketAddress);
+            serverSocketChannel.configureBlocking(false);
+            final int ops = serverSocketChannel.validOps();
+            SelectionKey selectionKey = serverSocketChannel.register(selector, ops, null);
+            while (true) {
+                System.out.println("I'm a server and I'm waiting for new connection and buffer select...");
+                selector.select();
+                Set<SelectionKey> selectionKeys = selector.selectedKeys();
+                Iterator<SelectionKey> selectionKeyIterator = selectionKeys.iterator();
+                while (selectionKeyIterator.hasNext()) {
+                    SelectionKey myKey = selectionKeyIterator.next();
+                    if (myKey.isAcceptable()) {
+                        SocketChannel socketChannel = serverSocketChannel.accept();
+                        socketChannel.configureBlocking(false);
+                        socketChannel.register(selector, SelectionKey.OP_READ);
+                        System.out.println("Connection Accepted: " + socketChannel.getLocalAddress());
+                    } else if (myKey.isReadable()) {
+                        SocketChannel socketChannel = (SocketChannel) myKey.channel();
+                        ByteBuffer byteBuffer = ByteBuffer.allocate(256);
+                        socketChannel.read(byteBuffer);
+                        String result = new String(byteBuffer.array()).trim();
+                        System.out.println("Message received: " + result);
+                        try {
+                            Files.writeString(filePath, result, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+                            System.out.println("Writing in file");
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        if (result.contains("client")) {
+                            socketChannel.close();
+                        }
                     }
-                }
-                if (byteArrayOutputStream != null) {
-                    try {
-                        byteArrayOutputStream.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-
-        System.out.println();
-        System.out.println("Reading texts from the bytes.");
-
-        for (byte[] bytes : arrayOfBytes) {
-            ByteArrayInputStream byteArrayInputStream = null;
-            BufferedReader bufferedReader = null;
-
-            try {
-                byteArrayInputStream = new ByteArrayInputStream(bytes);
-                bufferedReader = new BufferedReader(new InputStreamReader(byteArrayInputStream));
-
-                System.out.println(String.format("bytes -> \"%s\".", bufferedReader.readLine()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (bufferedReader != null) {
-                    try {
-                        bufferedReader.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (byteArrayInputStream != null) {
-                    try {
-                        byteArrayInputStream.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    selectionKeyIterator.remove();
                 }
             }
         }
     }
-}
 
+    public static class Client {
+        private static final InetSocketAddress inetSocketAddress = new InetSocketAddress("localhost", 8889);
+
+        public static void main(String[] args) throws IOException {
+            SocketChannel socketChannel = SocketChannel.open(inetSocketAddress);
+            System.out.println("Connecting to Server on port 8888...");
+            String message = "Message for server from client";
+            byte[] test = message.getBytes();
+            ByteBuffer buffer = ByteBuffer.wrap(test);
+            socketChannel.write(buffer);
+            buffer.clear();
+            System.out.println("sending: " + message);
+            socketChannel.close();
+        }
+    }
+}
