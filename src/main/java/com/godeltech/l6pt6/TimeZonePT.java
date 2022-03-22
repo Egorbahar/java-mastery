@@ -14,7 +14,7 @@ public class TimeZonePT {
 
         System.out.println("Current time:");
         System.out.println("Minsk: " + dateTimeFormatter.format(minskTimeZone));
-        System.out.println("Moscow: " + dateTimeFormatter.format(kievTimeZone));
+        System.out.println("Kiev: " + dateTimeFormatter.format(kievTimeZone));
         System.out.println("London: " + dateTimeFormatter.format(londonTimeZone));
     }
 }
